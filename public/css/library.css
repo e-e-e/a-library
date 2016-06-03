@@ -1,0 +1,269 @@
+
+
+body, html {
+	padding: 0;
+	margin: 0;
+	font-family: "body_font";
+	font-style: normal;
+	font-size: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+	body, html { font-size: 20px; }
+}
+
+@media only screen and (min-width: 1024px) {
+	body, html { font-size: 24px; }
+}
+
+body, .content {
+	max-width: 800px;
+	margin: 0 auto;
+	padding-bottom: 5em;
+}
+
+header, footer, main, section {
+	padding: 0 2em;
+	overflow: hidden;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	list-style: none;
+	width: 100%;
+}
+
+hr {
+	border: none;
+	border-top: solid black 0.5em;
+}
+
+h1, h2, h3, h4, h5 {
+	font-family: "heading_font";
+	font-style: normal;
+	font-weight: normal;
+}
+
+h1 {
+	font-size: 4em;
+	text-align: center;
+}
+
+h2 {
+	margin-left:-0.8em;
+}
+
+h2:before {
+	content: '§ ';
+	color: red;
+}
+
+p {
+	font-family: "body_font";
+	font-style: normal;
+	line-height: 1.5;
+}
+
+::selection {
+	background: #ff7;
+}
+::-moz-selection {
+	background: #ff7;
+}
+
+span.highlight {
+	font-family: "heading_font";
+}
+
+a {
+	text-decoration: none;
+	color: #F00;
+}
+
+li a {
+	text-decoration: underline !important;
+}
+
+a:hover, a:visited {
+	color: #A00;
+}
+
+sup {
+	vertical-align: top;
+}
+
+/* EDITING */
+
+a.edit-button {
+	display: inline-block;
+	text-decoration: none;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+
+}
+a.edit-button:hover {
+	cursor: pointer;
+}
+
+span.delete-button {
+	display: none;
+	color: #F00;
+}
+
+li.deleting {
+	opacity: 0.5;
+} 
+
+li:hover span.delete-button {
+	display: inline;
+	position: relative;
+	top:-0.6em;
+}
+
+li:hover span.delete-button:hover {
+	cursor: pointer;
+	color: #A00;
+}
+
+/* STYLE FILE UPLOAD */
+
+div.status.error,div.status.success { padding: 1em 0; }
+div.status.error { color:#F00; }
+div.status.success { color:000; }
+
+div.table {
+	display: table;
+	width: 100%;
+}
+
+div.table > div.row {
+	display: table-row;
+	width: 100%;
+}
+
+div.table > div.row > div {
+	width: 1%;
+	display: table-cell;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+div.table > div.row > div:nth-child(2) {
+	width: 100%;
+	padding: 0.5em 0.5em 0.3em;
+	overflow: hidden;
+}
+
+div.submit {
+	padding-top: 1em;
+	width: 100%;
+	text-align: center;
+}
+
+div.table  > div > div > span {
+	display: inline-block;
+}
+
+input[type=submit], input[type=text] {
+	color: #000;
+	text-align: left;
+	font-size: inherit;
+	font-family: body_font;
+	font-style: italic;
+}
+
+input[type='submit'] {
+	border: #000 1px solid;
+	background: #000;
+	color: #FFF;
+	cursor: pointer;
+	padding: 0.5em 1em;
+	margin: 1em;
+}
+
+input[type='submit']:hover,input[type='submit']:focus {
+	color: #F00;
+	background: #FFF;
+	border: #F00 1px solid;
+}
+
+input[type=text] {
+	width:100%;
+	display: inline-block;
+	background: #FFF;
+	border:none;
+	border-bottom: #000 1px solid;
+}
+
+input[type=text]:focus, input[type=text]:hover {
+	outline: none;
+	border-bottom: #F00 1px solid;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+	max-width:60%;
+	overflow: hidden;
+	display: inline-block;
+	cursor: pointer;
+	background: #FFF;
+	border:none;
+	border-bottom: #000 1px solid;
+	color: #000;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+	font-style: italic;
+	padding: 0.5em 0.5em 0.3em;
+}
+
+label svg {
+	width: 1em;
+	height:1em;
+	vertical-align: middle;
+	fill: currentColor;
+	margin-right: 0.25em;
+	margin-bottom: 0.2em;
+}
+
+.inputfile + label:hover {
+	color: #F00;
+	border-bottom: #F00 1px solid;
+	/*outline: -webkit-focus-ring-color auto 5px;*/
+}
+
+/* FOR UPDATEING */ 
+
+.hidden {
+	display: none;
+}
+
+div#overlay {
+	position: fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+section#update, section#confirm {
+	margin-top: 5em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background: #fff;
+	border-top: #000 thin solid;
+	border-bottom: #000 thin solid;
+}

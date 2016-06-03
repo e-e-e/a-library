@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>a-library</title>
+	<link rel="stylesheet" type="text/css" href="/css/fonts.css">
+	<link rel="stylesheet" type="text/css" href="/css/library.css">
+	<script src="/js/jquery-1.12.1.min.js"></script>
+	<script src="/js/jquery.form.min.js"></script>
+	<script src="/js/uploading.js"></script>
+	{?editable}<script src="/js/editing.js"></script>{/editable}
+</head>
+<body>
+	<header>
+		<h1>a-library<span><a href="#upload">+</a></span></h1>
+	</header>
+	<hr>
+	<section>
+	<h2>about:</h2>
+	<p><span class="highlight">a-library</span> is simply that a library. Or more specifically, it is an offline digital library; a localised wifi network that hosts a free and open collection of documents. <span class="highlight">a-library</span> was developed as a way for us to easily share books and articles with each other, and in the process to collectively develop a local archive of all the publications that are meaningful to us. By us, I mean you and I. even if we have not personally met, we have shared this location, and these texts are now between us.</p>
+	</section>
+	<hr>
+	<main>
+	<h2>the text:</h2>
+	{?error}<h1>There was an error {error}</h1>{/error}
+	<ul id="texts">
+	{#files editable=editable}
+		<li {?editable}data-id="{id}" data-authors="{authors}" data-title="{title}"{/editable}>
+			<p>
+				<span class="authors">{authors}</span>, <a class="title" href="/!/{file}">{title}</a> ({ext})
+				{?editable}
+					<a title='edit' class="edit-button">[ edit ]</a>
+					<span title='delete' class="delete-button">&times;</span>
+				{/editable}
+			</p>
+		</li>
+	{/files}
+	</ul>
+	</main>
+	<hr>
+	<section id="upload">
+	<h2>contribute to the library:</h2>
+	<form id="uploadForm"
+		enctype="multipart/form-data"
+		action="/upload"
+		method="post">
+		<div class="table">
+		<div class="row">
+			<div>
+				<label for="authors">author/s:</label>
+			</div>
+			<div>
+				<input type="text" name="authors" />
+			</div>
+		</div>
+		<div class="row">
+			<div>
+				<label for="title">title:</label>
+			</div>
+			<div>
+				<input type="text" name="title" />
+			</div>
+		</div>
+		{! File upload button !}
+		<div class="row">
+			<div>
+				<span>attach file: </span>
+				</div><div>
+				<input type="file" name="file" id=file class="inputfile" />
+				<label for="file">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="upload_svg" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 87.261 87.261" style="enable-background:new 0 0 87.261 87.261;" xml:space="preserve">
+					<g><path d="M80.521,53.865L67.19,37.018V23.541c0,0,0.008-6.385,0-6.465l-3.746-7.59l3.324-6.32c0.354-0.67,0.33-1.475-0.061-2.121 C66.314,0.397,65.613,0,64.857,0H7.442C6.251,0,5.284,0.967,5.284,2.16l0.051,80.307h10.369V16.842H9.603V4.32h51.68l-2.186,4.15 c-0.328,0.625-0.332,1.369-0.006,1.998l3.295,6.373h-42.43v65.625h7.914h6.818h12.997c0.347,2.703,2.652,4.795,5.449,4.795h11.259 c3.038,0,5.5-2.463,5.5-5.5V63.094h6.563c0.006,0,0.012,0,0.021,0c3.036,0,5.5-2.463,5.5-5.5 C81.978,56.156,81.425,54.846,80.521,53.865z M64.044,57.393v24.168H52.785V57.393H40.722l17.693-22.362l17.691,22.361 L64.044,57.393L64.044,57.393z"/></g>
+					</svg>
+				<span>Choose file...</span>
+				</label>
+				<sup>*(pdf or epub)</sup>
+			</div>
+		</div>
+		</div>
+		<div class="submit">
+			<div id="uploadStatus" class="status"></div>
+			<input type="submit" value="Upload Document" name="submit">
+		</div>
+	</form>
+	</section>
+	{?editable}
+	<div id="overlay" class="hidden">
+		<div class="content">
+			<section id="confirm">
+				<h2>delete document</h2>
+				<p>Are you sure you want to delete this document?</p>
+				<div class="submit">
+				<div id="confirmStatus" class="status"></div>
+				<input id="confirmDelete" type="submit" value="delete" name="delete">
+				<input id="confirmClose" type="submit" value="Cancel" name="cancel">
+				</div>
+			</section>
+			<section id="update">
+			<h2>update:</h2>
+			<p>Update title and author information for this document?</p>
+			<form id="updateForm" 
+			action="/update"
+			method="post">
+				<input id="updateID" type="hidden" name="id"/>
+				<div class="table">
+					<div class="row">
+						<div>
+							<label for="authors">author/s:</label>
+						</div>
+						<div>
+							<input type="text" name="authors" />
+						</div>
+					</div>
+					<div class="row">
+						<div>
+							<label for="title">title:</label>
+						</div>
+						<div>
+							<input type="text" name="title" />
+						</div>
+					</div>
+				</div>
+				<div class="submit">
+					<div id="updateStatus" class="status"></div>
+					<input id="updateSubmit" type="submit" value="Update" name="update">
+					<input id="updateClose" type="submit" value="Cancel" name="cancel">
+				</div>
+			</form>
+			</section>
+		</div>
+	</div>
+	{/editable}
+	<footer>
+		<p><sub>*This is a prototype which will be released open source in the near future.</sub></p>
+	</footer>
+</body>
+</html>

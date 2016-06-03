@@ -1,0 +1,9 @@
+{
+	"server" :{
+		"port":8080,
+		"admin_path": "/management"
+	},
+	"database": {
+		"location":"./tmp"
+	}
+}
