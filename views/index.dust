@@ -132,7 +132,7 @@
 	</div>
 	{/editable}
 	<footer>
-		<p><sub>*This is a prototype which will be released open source in the near future.</sub></p>
+		<p><sub>*<span class="highlight">a-library</span> is proudly open source.<br>Contirbute or fork the code on github: https://github.com/e-e-e/a-library</sub></p>
 	</footer>
 </body>
 </html>
