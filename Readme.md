@@ -251,7 +251,7 @@ node index.js
 	
 	This will automatically assign the ip 192.168.3.10 to all domain names. Nginx listens to all traffic and directs the requests to a.library. This only partially works for https traffic, as browsers with strong security will reject the self-signed certificate that nginx serves.
 
-9. #### Start Hostapd amd DNSMasq
+9. #### Start Hostapd and DNSMasq
 	
 	Start hostapd and dnsmasq to make a-library discoverable via wifi.
 	
@@ -280,7 +280,7 @@ node index.js
 	fi
 	
 	printf "Configuring DNSMasq\n"
-	service dnsmasq restart
+	sudo service dnsmasq restart
 	
 	exit 0
 	
