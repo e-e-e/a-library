@@ -66,11 +66,7 @@ node index.js
 	
 	**server.admin_path** is the url path used for managing the library. It presents a simple GUI for renaming and deleting documents from within the database. It is recommended that you change this to an obsure key too limit access to administrative features.
 	
-<<<<<<< Updated upstream
 	**location.database** is used to set the location of the sqlite3 database. It is recommend that you use an external USB or harddrive for the library as this will limit reading and writing to the system disk.
-=======
-	**database.location** is used to set the location of the sqlite3 database. It is recommend that you use an external USB or harddrive for the library as this will limit reading and writing to the system disk.
->>>>>>> Stashed changes
 
 5. #### Automatically start a-library:
 	
