@@ -21,14 +21,14 @@ node index.js
 
 **Note:** these instructions assume you are using a raspberry pi 3 with a clean install of the default operating system Jesse.
 
-1. Install all required software:
+1. #### Install all required software:
 	
 	```sh 
 	sudo apt-get update
 	sudo apt-get install dnsmasq hostapd nginx git
 	```
 
-2. Install node js v4:
+2. #### Install node js v4:
 	
 	```sh 
 	cd ~
@@ -40,7 +40,7 @@ node index.js
 	sudo rm -r node-v4.0.0-linux-armv7l
 	```
 
-3. Installing a-library:
+3. #### Installing a-library:
 	
 	```sh
 	git clone https://github.com/e-e-e/a-library
@@ -48,7 +48,7 @@ node index.js
 	npm install
 	```
 
-4. Configure a-libary:
+4. #### Configure a-libary:
 	
 	set config.json with your own preferences
 	
@@ -66,9 +66,9 @@ node index.js
 	
 	**server.admin_path** is the url path used for managing the library. It presents a simple GUI for renaming and deleting documents from within the database. It is recommended that you change this to an obsure key too limit access to administrative features.
 	
-	**server.admin_path** is used to set the location of the sqlite3 database. It is recommend that you use an external USB or harddrive for the library as this will limit reading and writing to the system disk.
+	**location.database** is used to set the location of the sqlite3 database. It is recommend that you use an external USB or harddrive for the library as this will limit reading and writing to the system disk.
 
-5. Automatically start a-library:
+5. #### Automatically start a-library:
 	
 	We use PM2 process manager to keep **a-library** running.
 	
@@ -82,7 +82,7 @@ node index.js
 	
 	Now **a-library** will be running automatically on start up, and will be relaunched if there are any problems.
 
-5. Setup nginx as a reverse proxy:
+5. #### Setup nginx as a reverse proxy:
 	
 	create new site settings
 	
@@ -159,7 +159,7 @@ node index.js
 	sudo service nginx restart
 	```
 	
-6. Set up static ip addresses 
+6. #### Set up static ip addresses 
 	
 	add the following lines to `/etc/dhcpcd.conf` to set static ip addresses for both `wan0` and `eth0`.
 	
@@ -183,7 +183,7 @@ node index.js
 	
 	Restart dhcpcd `sudo service dhcpcd restart` to assign static addresses.
 
-7. Configure Hostapd
+7. #### Configure Hostapd
 	
 	Make a new config file `sudo nano /etc/hostapd/hostapd.conf` with the following settings.
 	
@@ -225,7 +225,7 @@ node index.js
 	opening up the default configuration file - `sudo nano /etc/default/hostapd`.
 	Replace the line `#DAEMON_CONF=""` with `DAEMON_CONF="/etc/hostapd/hostapd.conf"`.
 
-8. Configure DNSMasq
+8. #### Configure DNSMasq
 	
 	Replace the default settings with a clean copy:
 	
@@ -251,14 +251,14 @@ node index.js
 	
 	This will automatically assign the ip 192.168.3.10 to all domain names. Nginx listens to all traffic and directs the requests to a.library. This only partially works for https traffic, as browsers with strong security will reject the self-signed certificate that nginx serves.
 
-9. Start Hostapd amd DNSMasq
+9. #### Start Hostapd amd DNSMasq
 	
 	Start hostapd and dnsmasq to make a-library discoverable via wifi.
 	
 	sudo service hostapd start  
 	sudo service dnsmasq start
 
-10. Finally
+10. #### Finally
 	
 	There is an issue with dnsmasq starting before hostapd on startup. A dirty fix is to restart dnsmasq by adding `service dnsmasq restart` to rc.local.
 	
