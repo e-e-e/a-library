@@ -247,9 +247,9 @@ node index.js
 	
 	To redirect all traffic to the address a.library you need to set up a custom dnsmasq rule.
 	
-	`sudo echo address=/#/192.168.3.10 > /etc/dnsmasq.d/a-library`
+	`sudo echo address=/#/172.24.1.1 > /etc/dnsmasq.d/a-library`
 	
-	This will automatically assign the ip 192.168.3.10 to all domain names. Nginx listens to all traffic and directs the requests to a.library. This only partially works for https traffic, as browsers with strong security will reject the self-signed certificate that nginx serves.
+	This will automatically assign the ip 172.24.1.1 to all domain names. Nginx listens to all traffic and directs the requests to a.library. This only partially works for https traffic, as browsers with strong security will reject the self-signed certificate that nginx serves.
 
 9. #### Start Hostapd and DNSMasq
 	
