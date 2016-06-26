@@ -1,6 +1,5 @@
 # a-library 
 
-
 ## About
 
 **a-library** is simply that a library. Or more specifically, it is an offline digital library; a localised wifi network that hosts a free and open collection of documents. **a-library** was developed as a way for us to easily share books and articles with each other, and in the process to collectively develop a local archive of all the publications that are meaningful to us. By us, I mean you and I. even if we have not personally met, we have shared this location, and these texts are now between us.
@@ -285,6 +284,48 @@ node index.js
 	exit 0
 	
 	```
+
+## Make filesystem read only
+
+**Note: this is currently breaking due to PM2**
+
+Back up fstab `sudo cp /etc/fstab /etc/fstab.original`.
+Then change `/etc/fstab` file to:
+
+```
+proc            /proc            proc    defaults  0       0
+/dev/mmcblk0p6  /boot            vfat    ro        0       2
+/dev/mmcblk0p7  /                ext4    ro        0       1
+tmpfs           /tmp             tmpfs   defaults,noatime,mode=1777      0       0
+tmpfs           /var/log         tmpfs   defaults,noatime,mode=0755      0       0
+tmpfs           /var/log/nginx   tmpfs   defaults,noatime,mode=0755      0       0
+tmpfs           /var/lib/systemd tmpfs   defaults,noatime,mode=0755      0       0
+tmpfs           /run             tmpfs   defaults,noatime,mode=0755      0       0
+
+/dev/sda        /media/usb/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
+
+```
+
+DHCP and DNSMasq will fail to start in a readonly system because they need to write information to their lease files.
+This is easily easily solved by creating symbolic links to the tmp directory.
+
+```sh
+# for dhcp.leases
+rm -rf /var/lib/dhcp/
+ln -s /tmp /var/lib/dhcp
+
+# for dnsmasq.leases
+sudo rm -rf /var/lib/misc/
+sudo ln -s /temp /var/lib/misc
+```
+
+PM2 at this point still fails as it trys to create pid, socket and log files.
+
+These instructions are an amalgamation from these sources:
+
+- http://www.matteomattei.com/web-kiosk-with-raspberry-pi-and-read-only-sd/
+- http://blog.gegg.us/2014/03/a-raspbian-read-only-root-fs-howto/
+- https://wiki.debian.org/ReadonlyRoot
 
 ## To do:
 
