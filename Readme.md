@@ -307,7 +307,7 @@ tmpfs           /run             tmpfs   defaults,noatime,mode=0755      0      
 ```
 
 DHCP and DNSMasq will fail to start in a readonly system because they need to write information to their lease files.
-This is easily easily solved by creating symbolic links to the tmp directory.
+This is easily fixed by creating symbolic links to the tmp directory.
 
 ```sh
 # for dhcp.leases
