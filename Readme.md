@@ -331,6 +331,7 @@ These instructions are an amalgamation from these sources:
 
 *Raspberry pi:*
 * Set up Rpi to be read only.
+* Write instructions for auto mounting USB drive/s
 * Automatic daily backups of the library to external usb.
 
 *Interface:*
