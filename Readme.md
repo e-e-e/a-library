@@ -18,7 +18,7 @@ node index.js
 
 **a-library** is intended to be installed on a raspberry pi, configured as an open wifi access point.
 
-**Note:** these instructions assume you are using a raspberry pi 3 with a clean install of the default operating system Jesse.
+**Note:** these instructions assume you are using a raspberry pi 3 with a clean install of the default operating system Jesse and have setup a new user named `librarian`.
 
 1. #### Install all required software:
 	
@@ -69,6 +69,55 @@ node index.js
 
 5. #### Automatically start a-library:
 	
+	We use Forever to keep a-library running on a read only system. 
+	Read below for instructions on setting up a-library readonly.
+
+	First install forever: `sudo npm install forever -g`. 
+	Then make a new startup process `sudo nano \etc\init.d\nodeup` with the following settings:
+
+	```sh
+	#!/bin/sh
+	#/etc/init.d/nodeup
+
+	### BEGIN INIT INFO
+	# Provides:          nodeup
+	# Required-Start:    $remote_fs $syslog
+	# Required-Stop:     $remote_fs $syslog
+	# Default-Start:     2 3 4 5
+	# Default-Stop:      0 1 6
+	# Short-Description: Starts all node apps
+	# Description:       Starts all node apps like AAM, AMT,...
+	### END INIT INFO
+
+	export PATH=$PATH:/usr/local/bin
+	export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
+
+	start() {
+	  forever --sourceDir=/home/librarian/a-library --workingDir=/home/librarian/a-library -a -l /tmp/alibrary.log -e /tmp/alibrary-err.log -o /tmp/alibrary-output.log --pidFile=/tmp/node.pid index.js 2>&1 > /dev/null &
+	  return 0
+	}
+
+	case "$1" in
+	start)
+	  start
+	  ;;
+	stop)
+	  exec forever stopall
+	  ;;
+	*)
+	  echo "Usage: /etc/init.d/nodeup {start|stop}"
+	  exit 1
+	  ;;
+	esac
+	```
+
+	Set it's permissions to make it executable:	`sudo chmod 755 /etc/init.d/nodeup`,
+	And tell Debian to start it on launch via Debian's update-rc.d: `update-rc.d nodeup defaults`.
+	
+	If you want to stop it automatically starting use `update-rc.d -f nodeup remove`.
+
+	**Use pm2 for non-readonly version.**
+
 	We use PM2 process manager to keep **a-library** running.
 	
 	```sh 
@@ -132,6 +181,10 @@ node index.js
 		}
 		
 		location @node {
+			# disable caching and buffering for read only system
+			expires off;
+			proxy_cache off;
+			proxy_buffering off;
 			proxy_set_header Host $http_host;
 			proxy_set_header X-Forwarded-For $remote_addr;
 			proxy_pass http://a_library;
@@ -319,8 +372,6 @@ sudo rm -rf /var/lib/misc/
 sudo ln -s /temp /var/lib/misc
 ```
 
-PM2 at this point still fails as it trys to create pid, socket and log files.
-
 These instructions are an amalgamation from these sources:
 
 - http://www.matteomattei.com/web-kiosk-with-raspberry-pi-and-read-only-sd/
@@ -330,7 +381,6 @@ These instructions are an amalgamation from these sources:
 ## To do:
 
 *Raspberry pi:*
-* Set up Rpi to be read only.
 * Write instructions for auto mounting USB drive/s
 * Automatic daily backups of the library to external usb.
 
