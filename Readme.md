@@ -340,8 +340,6 @@ node index.js
 
 ## Make filesystem read only
 
-**Note: this is currently breaking due to PM2**
-
 Back up fstab `sudo cp /etc/fstab /etc/fstab.original`.
 Then change `/etc/fstab` file to:
 
