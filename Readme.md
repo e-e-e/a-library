@@ -355,7 +355,8 @@ tmpfs           /var/log/nginx   tmpfs   defaults,noatime,mode=0755      0      
 tmpfs           /var/lib/systemd tmpfs   defaults,noatime,mode=0755      0       0
 tmpfs           /run             tmpfs   defaults,noatime,mode=0755      0       0
 
-/dev/sda        /media/usb/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
+/dev/sda1        /media/usb/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
+/dev/sdb1        /media/usb/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
 
 ```
 
@@ -369,7 +370,7 @@ ln -s /tmp /var/lib/dhcp
 
 # for dnsmasq.leases
 sudo rm -rf /var/lib/misc/
-sudo ln -s /temp /var/lib/misc
+sudo ln -s /tmp /var/lib/misc
 ```
 
 These instructions are an amalgamation from these sources:
