@@ -9,6 +9,7 @@ config.json
 # Destination directories
 public/dist
 tmp
+backup
 
 # Logs
 logs

@@ -14,7 +14,7 @@ var bodyParser = require('body-parser');
 // need to set defaults if config file is not present or is broken.
 var config = require('./config.json');
 
-var router = require('./library-router.js')(config.database.location, config.server.admin_path);
+var router = require('./library-router.js')(config.database.location, config.server.admin_path, config.database.backup);
 
 var app = express();
 

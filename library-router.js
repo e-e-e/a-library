@@ -8,10 +8,14 @@ var path = require('path');
 var express = require('express');
 var multer = require('multer');
 
+var sync = require('./library-sync.js');
+
 /* global exports:true */
 exports = module.exports = makeRouter;
 
-function makeRouter (destination, admin) {
+function makeRouter (destination, admin, backup) {
+
+
 
 	make_storage_destination(destination);
 	
@@ -53,6 +57,8 @@ function makeRouter (destination, admin) {
 			library.add(req.file, req.body.authors, req.body.title)
 				.then(result => {
 					res.json( {err:null, msg:'File successfully added to library.', added:result[0]});
+					//syncronise
+					if(backup) sync(destination,backup);
 				}).catch( err => {
 					console.log(err);
 					res.json({err:"File already exists.", msg:null});
@@ -63,7 +69,11 @@ function makeRouter (destination, admin) {
 	router.post('/update', (req,res)=> {
 		console.log(req.body);
 		library.update(req.body.id,req.body.authors,req.body.title).then(
-			results => res.json({success:results}),
+			results => {
+				res.json({success:results});
+				//syncronise
+				if(backup) sync(destination,backup);
+			},
 			err => {
 				res.json({err:err});
 			}
@@ -72,7 +82,11 @@ function makeRouter (destination, admin) {
 
 	router.post('/delete', (req,res) =>{
 		library.delete_item(req.body.id).then(
-			results => res.json({success:results}),
+			results => {
+				res.json({success:results});
+				//syncronise
+				if(backup) sync(destination,backup);
+			},
 			err => res.json({err:err})
 		);
 	});
