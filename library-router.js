@@ -109,11 +109,6 @@ function makeRouter (destination, admin, backup) {
 		res.redirect('/');
 	});
 
-	router.use((err, req, res, next) => {
-		console.log(err,err.stack);
-		next(err);
-	});
-
 	return { router: router };
 }
 

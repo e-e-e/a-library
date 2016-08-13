@@ -147,7 +147,8 @@ node index.js
 		ssl_certificate /etc/nginx/ssl/nginx.crt; 
 		ssl_certificate_key /etc/nginx/ssl/nginx.key; 
 		listen 80 default_server;
-		client_max_body_size 20M;
+		client_body_buffer_size     10M;
+		client_max_body_size        10M;
 
 		# this is to fake captive portal
 		if ($http_user_agent ~* (CaptiveNetworkSupport)) {
@@ -168,7 +169,8 @@ node index.js
 		server_name a.library;
 		root /var/www/library/public;
 		index index.html index.htm;
-		client_max_body_size 20M;
+		client_body_buffer_size     10M;
+		client_max_body_size        10M;
 	
 		location / {
 			try_files $uri @node;
