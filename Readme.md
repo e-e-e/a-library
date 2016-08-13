@@ -73,7 +73,7 @@ node index.js
 	Read below for instructions on setting up a-library readonly.
 
 	First install forever: `sudo npm install forever -g`. 
-	Then make a new startup process `sudo nano \etc\init.d\nodeup` with the following settings:
+	Then make a new startup process `sudo nano /etc/init.d/nodeup` with the following settings:
 
 	```sh
 	#!/bin/sh
@@ -147,7 +147,8 @@ node index.js
 		ssl_certificate /etc/nginx/ssl/nginx.crt; 
 		ssl_certificate_key /etc/nginx/ssl/nginx.key; 
 		listen 80 default_server;
-	
+		client_max_body_size 20M;
+
 		# this is to fake captive portal
 		if ($http_user_agent ~* (CaptiveNetworkSupport)) {
 			return 200;
@@ -167,6 +168,7 @@ node index.js
 		server_name a.library;
 		root /var/www/library/public;
 		index index.html index.htm;
+		client_max_body_size 20M;
 	
 		location / {
 			try_files $uri @node;
@@ -354,9 +356,27 @@ tmpfs           /var/lib/systemd tmpfs   defaults,noatime,mode=0755      0      
 tmpfs           /run             tmpfs   defaults,noatime,mode=0755      0       0
 
 /dev/sda1        /media/usb/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
-/dev/sdb1        /media/usb/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
+/dev/sdb1        /media/backup/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
 
 ```
+
+these lines automatically mount usb drives
+```
+/dev/sda1        /media/usb/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
+/dev/sdb1        /media/backup/      vfat    auto,users,rw,uid=1001,gid=1001,umask=0002 0 0
+```
+for this to work you need to make the directorys `/media/usb` and `/media/backup`.
+
+To test fstab run `mount -a`.
+
+Disable nginx logs by setting logs in `\etc\nginx\nginx.config`:
+
+```
+access_log  /dev/null;
+error_log /dev/null;
+```
+
+Note: you need to make user that nginx log folder exists.
 
 DHCP and DNSMasq will fail to start in a readonly system because they need to write information to their lease files.
 This is easily fixed by creating symbolic links to the tmp directory.
@@ -380,8 +400,7 @@ These instructions are an amalgamation from these sources:
 ## To do:
 
 *Raspberry pi:*
-* Write instructions for auto mounting USB drive/s
-* Automatic daily backups of the library to external usb.
+* nothing urgent
 
 *Interface:*
 * Simple search

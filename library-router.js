@@ -15,8 +15,6 @@ exports = module.exports = makeRouter;
 
 function makeRouter (destination, admin, backup) {
 
-
-
 	make_storage_destination(destination);
 	
 	var library = require('./library-database.js')(destination);
@@ -109,6 +107,11 @@ function makeRouter (destination, admin, backup) {
 	router.get('*', (req,res)=> {
 		// get all items from database and render
 		res.redirect('/');
+	});
+
+	router.use((err, req, res, next) => {
+		console.log(err,err.stack);
+		next(err);
 	});
 
 	return { router: router };
