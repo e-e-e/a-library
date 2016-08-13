@@ -18,7 +18,7 @@
 			dataType:'json',
 			error: function(xhr) {
 				$("#uploadStatus").empty()
-					.text('Error: ' + xhr.status)
+					.text('Error: ' + xhr.status + xhr.response)
 					.removeClass('success')
 					.addClass('error');
 			},
